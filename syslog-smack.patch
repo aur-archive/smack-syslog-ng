@@ -1,0 +1,25 @@
+diff -rup syslog-ng-3.3.4-orig/modules/affile/affile.c syslog-ng-3.3.4/modules/affile/affile.c
+--- syslog-ng-3.3.4-orig/modules/affile/affile.c	2012-04-14 16:30:59.605617689 +0200
++++ syslog-ng-3.3.4/modules/affile/affile.c	2012-04-14 16:31:07.270560587 +0200
+@@ -60,6 +60,7 @@ affile_open_file(gchar *name, gint flags
+     {
+       g_process_cap_modify(CAP_DAC_READ_SEARCH, TRUE);
+       g_process_cap_modify(CAP_SYSLOG, TRUE);
++      g_process_cap_modify(CAP_MAC_OVERRIDE, TRUE);
+     }
+   else
+     {
+diff -rup syslog-ng-3.3.4-orig/syslog-ng/main.c syslog-ng-3.3.4/syslog-ng/main.c
+--- syslog-ng-3.3.4-orig/syslog-ng/main.c	2012-04-14 16:30:59.599617735 +0200
++++ syslog-ng-3.3.4/syslog-ng/main.c	2012-04-14 16:53:23.834557847 +0200
+@@ -159,8 +159,8 @@ version(void)
+ static void
+ setup_caps (void)
+ {
+-  static gchar *capsstr_syslog = BASE_CAPS "cap_syslog=ep";
+-  static gchar *capsstr_sys_admin = BASE_CAPS "cap_sys_admin=ep";
++  static gchar *capsstr_syslog = BASE_CAPS "cap_mac_override,cap_syslog=ep";
++  static gchar *capsstr_sys_admin = BASE_CAPS "cap_mac_overrid,cap_sys_admin=ep";
+ 
+   /* Set up the minimal privilege we'll need
+    *
